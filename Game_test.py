@@ -7,7 +7,7 @@ screen = turtle.Screen()    # defining screen
 screen.bgcolor("black")     # screen color to black
 screen.title("Fysik spel")  # title of screen
 screen.tracer(0)            # turn off tracer
-counter = 0
+counter = 0                 # 
 wind_dir = [-1, 1]
 
 balls_shape = ["circle"]
@@ -20,7 +20,7 @@ for i in range(10):                  # creating 5 balls
 
 # appending fetures to each ball
 for b in balls:
-    b.shape(random.choice(balls_shape))                    # all balls get the same shape
+    b.shape(random.choice(balls_shape))     # all balls get the same shape
     b.color(random.choice(balls_colors))    # balls get different colors
     b.penup()                               # to not leave tracks
     b.speed(0)                              # speed for showing movement
@@ -42,7 +42,7 @@ air_res = 0.9       # v = D/b, D är luftmotståndskraften, b är konstanden som
 while True:
     screen.update()
 
-    counter += 1                    
+    counter += 1                    # to count time
     
     for b in balls:
         b.rt(b.da)                  # balls rotation
@@ -55,15 +55,17 @@ while True:
             b.dx *= -1
             b.da *= -1
 
-        if b.ycor() < -300:
+        if b.ycor() < -300:         # friktion på marken
             b.sety(-300)
             b.dy *= -0.9
+            b.dx *= 0.9
             b.da *= -1
 
         if counter % 500 == 0:      # circus air resitance
             b.dx *= air_res
             b.dy *= air_res
 
+    # Wind force
     if counter >= 5000:   # 5000ms = 5s
         for b in balls:
             b.dx += 0.3 * random.choice(wind_dir)
