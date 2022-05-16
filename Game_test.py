@@ -10,7 +10,7 @@ screen.tracer(0)            # turn off tracer
 counter = 0
 wind_dir = [-1, 1]
 
-balls_shape = "circle"
+balls_shape = ["circle"]
 balls_colors = ["white", "orange", "green", "blue", "red"]
 balls = []          # array with all balls
 
@@ -20,7 +20,7 @@ for i in range(10):                  # creating 5 balls
 
 # appending fetures to each ball
 for b in balls:
-    b.shape(balls_shape)                    # all balls get the same shape
+    b.shape(random.choice(balls_shape))                    # all balls get the same shape
     b.color(random.choice(balls_colors))    # balls get different colors
     b.penup()                               # to not leave tracks
     b.speed(0)                              # speed for showing movement
@@ -29,20 +29,24 @@ for b in balls:
     b.goto(x, y)                            # moving ball to that position
     b.dy = 0                                # initial velocity y
     b.dx = random.randint(-1, 1)            # initial velocity x
-    b.da = 3
+    b.da = 1
 
-gravity = 0.001
-air_res = 0.9
+# vel_loss är hastighetsförlusten i y-led som framkommer på grund av gravitationskraft
+vel_loss = 0.001    # K = U <=> (mv^2)/2 = mgh <=> v = (2gh)^1/2
+
+# air_res är procentuel variabel som är lika med 90% av nuvarande hastighet i x/y led, de 10% är på grund av energi förlust
+air_res = 0.9       # v = D/b, D är luftmotståndskraften, b är konstanden som beror på tvärsnittsarean, 
+                    # luftens densitet och den dimentionlösa koeficenten
 
 # run
 while True:
     screen.update()
 
-    counter += 1 
+    counter += 1                    
     
     for b in balls:
         b.rt(b.da)                  # balls rotation
-        b.dy -= gravity             # gravity in y-axis
+        b.dy -= vel_loss            # vel_loss in y-axis
         b.sety(b.ycor() + b.dy)     # changing y cord
         b.setx(b.xcor() + b.dx)     # changing x cord
 
@@ -56,7 +60,7 @@ while True:
             b.dy *= -0.9
             b.da *= -1
 
-        if counter % 500 == 0:
+        if counter % 500 == 0:      # circus air resitance
             b.dx *= air_res
             b.dy *= air_res
 
@@ -68,6 +72,7 @@ while True:
         print("wind time")
 
     # Collisions between balls
+    # det blir en totalt elastisk kollision mellan bollarna
     for i in range(0, len(balls)):
         for j in range(i+1, len(balls)):
             if balls[i].distance(balls[j]) < 20:
