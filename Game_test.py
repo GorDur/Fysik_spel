@@ -1,8 +1,6 @@
 from secrets import choice
 import turtle       # to create shape with canvas
-import random    
-# import time
-# import math
+import random
 
 # friktion är inte implementerat i spelet
 
@@ -20,7 +18,7 @@ used_x_cords = []
 start_x = -290
 
 # creating balls 
-for i in range(10):                  # creating 1 balls
+for i in range(10):                  # skapar 10 bollar, det är lagom antal bollar för att de ska skapas utan problem
     balls.append(turtle.Turtle())   # appending them to the array
 
 # appending fetures to each ball
@@ -58,12 +56,13 @@ while True:
         b.sety(b.ycor() + b.dy)     # changing y cord
         b.setx(b.xcor() + b.dx)     # changing x cord
 
-        # kollision med väggar
+        # elastiskt kollision med väggar och marken
+        # vid kollission ändrar bollarna riktning
         if b.xcor() > 300 or b.xcor() < -300:
             b.dx *= -1
             b.da *= -1
 
-        if b.ycor() < -300:         # friktion på marken
+        if b.ycor() < -300:
             b.sety(-300)
             b.dy *= -1
             b.da *= -1
