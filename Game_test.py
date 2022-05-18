@@ -1,8 +1,10 @@
 from secrets import choice
 import turtle       # to create shape with canvas
-import random     
-import time
-import math
+import random    
+# import time
+# import math
+
+# friktion är inte implementerat i spelet
 
 screen = turtle.Screen()    # defining screen 
 screen.bgcolor("black")     # screen color to black
@@ -57,16 +59,17 @@ while True:
         b.setx(b.xcor() + b.dx)     # changing x cord
 
         # kollision med väggar
-        if b.xcor() > 310 or b.xcor() < -310:
+        if b.xcor() > 300 or b.xcor() < -300:
             b.dx *= -1
             b.da *= -1
 
         if b.ycor() < -300:         # friktion på marken
             b.sety(-300)
-            b.dy *= -0.9
+            b.dy *= -1
             b.da *= -1
 
-        if counter % 300 == 0:      # circus air resistance
+        # lyckades inte implementera leapfrog så i stället körde luftmotstånd beroende på tidsändringen
+        if counter % 300 == 0:      # ca. air resistance every 0.3 sec
             b.dx *= air_res
             b.dy *= air_res
 
